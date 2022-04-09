@@ -1,6 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm")
     java
+    application
 }
 
 group = "io.github.duzhaokun123"
@@ -17,4 +18,8 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("MainKt")
 }

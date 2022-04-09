@@ -17,3 +17,4 @@
 ## thanks
 - [IntelliJ Platform SDK](https://plugins.jetbrains.com/docs/intellij/welcome.html)
 - [JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass)
+- [gson](https://github.com/google/gson)
