@@ -15,6 +15,7 @@ object Codegen {
         kotlinFile {
             `package`(packageName)
             import(JsonObject::class)
+            import(JsonElement::class)
             import(LazyjsonClass::class)
             addJsonClassTree(jsonTree.toJsonClassTree(className))
         }.saveTo(out)
@@ -22,7 +23,7 @@ object Codegen {
     }
 
     private fun AdvancedDeclarationsRobot.addJsonClassTree(jsonClassTree: JsonClassTree, depth: Int = 0) {
-        if (depth != 0) private.`fun`("JsonObject.as${jsonClassTree.className}").returns(get("${jsonClassTree.className}(this)"))
+        if (depth != 0) private.`val`("JsonElement.as${jsonClassTree.className}").accessors { get = get("${jsonClassTree.className}(this.asJsonObject)") }
         if (depth == 0) `@`("LazyjsonClass") else { this }
             .`class`(jsonClassTree.className).primaryConstructor(private.`val`.parameter("jsonObject") of type("JsonObject")).body {
                 `fun`("getJsonObject").returns(get("jsonObject"))
@@ -32,7 +33,7 @@ object Codegen {
                     val isArray = "<" in field.type
                     val q = if (isNullable) "?" else ""
                     if (isArray)
-                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.name}\")$q.asJsonArray$q.map { it.as${asTo} }"))
+                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.name}\")$q.asJsonArray$q.map { it.as${asTo} } }"))
                     else
                         `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.name}\")$q.as$asTo }"))
                 }
