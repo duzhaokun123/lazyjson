@@ -17,15 +17,8 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="io.github.duzhaokun123.actions.PopupDialogAction"
-                class="io.github.duzhaokun123.actions.PopupDialogAction" text="Pop Dialog Action">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <keyboard-shortcut first-keystroke="control alt A" keymap="$default" second-keystroke="C"/>
-            <mouse-shortcut keymap="$default" keystroke="control button3 doubleClick"/>
-            <override-text place="MainMenu" text="Popup Dialog Action"/>
-        </action>
         <action id="io.github.duzhaokun123.actions.CodegenAction" class="io.github.duzhaokun123.actions.CodegenAction"
-                text="Lazyjson Class">
+                text="Lazyjson Class" icon="AllIcons.Actions.AddFile">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="Kotlin.NewFile"/>
         </action>
     </actions>
