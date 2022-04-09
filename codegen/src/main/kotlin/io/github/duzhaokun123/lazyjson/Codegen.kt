@@ -3,6 +3,7 @@ package io.github.duzhaokun123.lazyjson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
 import io.github.duzhaokun123.lazyjson.model.JsonClassTree
 import io.github.duzhaokun123.lazyjson.model.JsonTree
 import krobot.api.*
@@ -17,6 +18,7 @@ object Codegen {
             import(JsonObject::class)
             import(JsonElement::class)
             import(LazyjsonClass::class)
+            import(LazyjsonFrom::class)
             addJsonClassTree(jsonTree.toJsonClassTree(className))
         }.saveTo(out)
         return out.toString()
@@ -26,6 +28,9 @@ object Codegen {
         if (depth != 0) private.`val`("JsonElement.as${jsonClassTree.className}").accessors { get = get("${jsonClassTree.className}(this.asJsonObject)") }
         if (depth == 0) `@`("LazyjsonClass") else { this }
             .`class`(jsonClassTree.className).primaryConstructor(private.`val`.parameter("jsonObject") of type("JsonObject")).body {
+                if (depth == 0)
+                    `@`("LazyjsonFrom").`@`("JvmStatic")
+                        .`fun`("from").parameters("jsonObject" of type("JsonObject")).returns(get("${jsonClassTree.className}(jsonObject)"))
                 `fun`("getJsonObject").returns(get("jsonObject"))
                 jsonClassTree.fields.forEach { field ->
                     val asTo = field.className
