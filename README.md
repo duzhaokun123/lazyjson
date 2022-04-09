@@ -12,3 +12,4 @@
 
 ## TODO
 - intellij 插件
+- 构造函数

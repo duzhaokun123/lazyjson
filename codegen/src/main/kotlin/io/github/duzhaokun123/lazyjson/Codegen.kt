@@ -21,10 +21,10 @@ object Codegen {
         return out.toString()
     }
 
-    fun AdvancedDeclarationsRobot.addJsonClassTree(jsonClassTree: JsonClassTree, depth: Int = 0) {
+    private fun AdvancedDeclarationsRobot.addJsonClassTree(jsonClassTree: JsonClassTree, depth: Int = 0) {
+        if (depth != 0) private.`fun`("JsonObject.as${jsonClassTree.className}").returns(get("${jsonClassTree.className}(this)"))
         if (depth == 0) `@`("LazyjsonClass") else { this }
             .`class`(jsonClassTree.className).primaryConstructor(private.`val`.parameter("jsonObject") of type("JsonObject")).body {
-                `fun`("JsonObject.as${jsonClassTree.className}").returns(get("${jsonClassTree.className}(this)"))
                 `fun`("getJsonObject").returns(get("jsonObject"))
                 jsonClassTree.fields.forEach { field ->
                     val asTo = field.className

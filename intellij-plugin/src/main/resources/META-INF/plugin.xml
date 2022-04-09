@@ -1,0 +1,32 @@
+<idea-plugin>
+    <id>io.github.duzhaokun123.intellij-plugin</id>
+    <name>Lazyjson Codegen</name>
+    <vendor email="duzhaokun2@outlook.com" url="https://duzhaokun123.github.io">duzhaokun123</vendor>
+
+    <description><![CDATA[
+    lazyjson codegen plugin for intellij idea
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="io.github.duzhaokun123.actions.PopupDialogAction"
+                class="io.github.duzhaokun123.actions.PopupDialogAction" text="Pop Dialog Action">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <keyboard-shortcut first-keystroke="control alt A" keymap="$default" second-keystroke="C"/>
+            <mouse-shortcut keymap="$default" keystroke="control button3 doubleClick"/>
+            <override-text place="MainMenu" text="Popup Dialog Action"/>
+        </action>
+        <action id="io.github.duzhaokun123.actions.CodegenAction" class="io.github.duzhaokun123.actions.CodegenAction"
+                text="Lazyjson Class">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="Kotlin.NewFile"/>
+        </action>
+    </actions>
+</idea-plugin>
