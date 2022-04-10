@@ -28,9 +28,10 @@ object Codegen {
         if (depth != 0) private.`val`("JsonElement.as${jsonClassTree.className}").accessors { get = get("${jsonClassTree.className}(this.asJsonObject)") }
         if (depth == 0) `@`("LazyjsonClass") else { this }
             .`class`(jsonClassTree.className).primaryConstructor(private.`val`.parameter("jsonObject") of type("JsonObject")).body {
-                if (depth == 0)
+                if (depth == 0) companion.`object`("").body {
                     `@`("LazyjsonFrom").`@`("JvmStatic")
                         .`fun`("from").parameters("jsonObject" of type("JsonObject")).returns(get("${jsonClassTree.className}(jsonObject)"))
+                }
                 `fun`("getJsonObject").returns(get("jsonObject"))
                 jsonClassTree.fields.forEach { field ->
                     val asTo = field.className
@@ -38,9 +39,9 @@ object Codegen {
                     val isArray = "<" in field.type
                     val q = if (isNullable) "?" else ""
                     if (isArray)
-                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.name}\")$q.asJsonArray$q.map { it.as${asTo} } }"))
+                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.jsonName}\")$q.asJsonArray$q.map { it.as${asTo} } }"))
                     else
-                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.name}\")$q.as$asTo }"))
+                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.jsonName}\")$q.as$asTo }"))
                 }
                 jsonClassTree.childClass.forEach { childClass ->
                     addJsonClassTree(childClass, depth + 1)
