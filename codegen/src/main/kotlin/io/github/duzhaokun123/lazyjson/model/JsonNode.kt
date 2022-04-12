@@ -21,7 +21,7 @@ data class JsonNode(var path: String, var type: JsonType) {
         var clazz = when (type) {
             JsonType.OBJECT -> jsonName.toBigCamelCase()
             JsonType.STRING -> "String"
-            JsonType.NUMBER -> "Double"
+            JsonType.NUMBER -> "Number"
             JsonType.BOOLEAN -> "Boolean"
             else -> throw IllegalArgumentException("Unsupported type: $type")
         }
