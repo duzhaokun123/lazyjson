@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/duzhaokun123/lazyjson?style=flat-square)
 ![IntelliJ Plugin](https://img.shields.io/badge/IntilliJ-Plugin-success?style=flat-square&logo=IntelliJ%20IDEA)
 
-使用 Kotlin 的 lazy 方式实现的 JSON 解析器
+使用 Kotlin 的 ~~lazy 代理实现的~~ getter (现在是懒得改名的 lazy) JSON 解析器
 
 旨在 R8 友好
 

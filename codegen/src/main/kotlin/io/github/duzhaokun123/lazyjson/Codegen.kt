@@ -33,15 +33,16 @@ object Codegen {
                         .`fun`("from").parameters("jsonObject" of type("JsonObject")).returns(get("${jsonClassTree.className}(jsonObject)"))
                 }
                 `fun`("getJsonObject").returns(get("jsonObject"))
+                override.`fun`("toString").returns(get("jsonObject.toString()"))
                 jsonClassTree.fields.forEach { field ->
                     val asTo = field.className
                     val isNullable = "?" in field.type
                     val isArray = "<" in field.type
                     val q = if (isNullable) "?" else ""
                     if (isArray)
-                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.jsonName}\")$q.asJsonArray$q.map { it.as${asTo} } }"))
+                        `val`(field.name).of(field.type).accessors{ get = get("jsonObject.get(\"${field.jsonName}\")$q.asJsonArray$q.map { it.as${asTo} }") }
                     else
-                        `val`(field.name).of(field.type).by(get("lazy { jsonObject.get(\"${field.jsonName}\")$q.as$asTo }"))
+                        `val`(field.name).of(field.type).accessors{ get = get("jsonObject.get(\"${field.jsonName}\")$q.as$asTo") }
                 }
                 jsonClassTree.childClass.forEach { childClass ->
                     addJsonClassTree(childClass, depth + 1)
